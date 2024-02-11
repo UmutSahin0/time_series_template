@@ -27,6 +27,11 @@ def data_preprocessing(df):
     df["Açılış"] = df["Açılış"].str.replace(',', '.')
     df["Açılış"] = df["Açılış"].astype(float)
 
+    df["Yüksek"] = df["Yüksek"].str.replace(',', '.')
+    df["Yüksek"] = df["Yüksek"].astype(float)
+
+    df["Düşük"] = df["Düşük"].str.replace(',', '.')
+    df["Düşük"] = df["Düşük"].astype(float)
 
 
     # Sort values ascending according to Tarih column
