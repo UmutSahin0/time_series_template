@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 
 import math
 
+#pushed with my personal account
+
 
 def history_visualization(history):
     plt.plot(history.history['loss'])
