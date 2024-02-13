@@ -5,7 +5,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from tensorflow.keras.models import load_model
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout,RepeatVector,TimeDistributed
 
 import matplotlib.pyplot as plt
 
@@ -29,13 +29,25 @@ def building_autoencoder_model(x_train):
     x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 
     model = Sequential()
-    model.add(LSTM(128, activation='relu', input_shape=(x_train.shape[1], x_train.shape[2]), return_sequences=True))
-    model.add(LSTM(64, activation='relu', return_sequences=False))
+    model.add(LSTM(256, activation='relu', input_shape=(x_train.shape[1], x_train.shape[2]), return_sequences=True))
     model.add(Dropout(0.2))
-    model.add(Dense(x_train.shape[1]))
+    model.add(LSTM(128, activation='relu', return_sequences=True))
+
+    model.add(LSTM(64, activation='relu', return_sequences=False))
+    model.add(RepeatVector(x_train.shape[1]))
+    model.add(LSTM(64, activation='relu', return_sequences=True))
+    model.add(Dropout(0.2))
+    model.add(LSTM(128, activation='relu', return_sequences=True))
+    model.add(Dropout(0.2))
+
+    model.add(LSTM(256, activation='relu', return_sequences=True))
+    model.add(TimeDistributed(Dense(x_train.shape[2])))
+
+    """model.add(Dropout(0.2))
+    model.add(Dense(x_train.shape[1]))"""
 
     model.compile(optimizer='adam', loss='mse')
-    history = model.fit(x_train, x_train, epochs=6, batch_size=64, validation_split=0.1, verbose=1)
+    history = model.fit(x_train, x_train, epochs=1, batch_size=64, validation_split=0.1, verbose=1)
 
     history_visualization(history)
 
@@ -72,9 +84,9 @@ def main():
 
     x_train, x_test = df_to_X_for_lstm(df_train, df_test)
 
-    # model, history = building_autoencoder_model(x_train)
+    model, history = building_autoencoder_model(x_train)
 
-    model = load_model('lstm_autoencoder_model.h5')
+    #model = load_model('lstm_autoencoder_model.h5')
 
     x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 
