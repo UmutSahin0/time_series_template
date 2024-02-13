@@ -99,6 +99,7 @@ def building_lstm_model(x_train, y_train):
 
     print("model fitted and saved")
     return model,history
+
 def main():
 
     df_train=pd.read_csv('df_train.csv')
@@ -112,7 +113,7 @@ def main():
     # LSTM for just forecasting, not for anomaly detection
     x_train, x_test, y_train, y_test = df_to_X_and_y_for_lstm(df_train, df_test)
     # model , history = building_lstm_model(x_train, y_train)
-    model , history = building_lstm_model(x_train, y_train)
+    #model , history = building_lstm_model(x_train, y_train)
 
     model = load_model('lstm_model.h5')
     # Predict and visualize model performance

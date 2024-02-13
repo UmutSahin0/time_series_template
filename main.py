@@ -46,6 +46,9 @@ def LSTM():
     subprocess.run(["python", "LSTM.py"])
 def Prophet():
     subprocess.run(["python", "Prophet.py"])
+def LSTM_Autoencoder():
+    subprocess.run(["python", "LSTM_Autoencoder.py"])
+
 
 def main():
     # data load from csv
@@ -62,6 +65,7 @@ def main():
 
     #LSTM()
     #Prophet()
+    #LSTM_Autoencoder()
 
 
 main()
